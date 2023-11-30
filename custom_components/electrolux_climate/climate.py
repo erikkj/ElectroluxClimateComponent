@@ -48,7 +48,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, add_entitie
     discovery = broadlink.discover(discover_ip_address=host)
     
     if len(discovery) > 0 and discovery[0].devtype == 0x4f9b:
-        sn = json.loads(create_from_device(discovery[0]).get_status())["sn"]
+        sn = json.loads(create_from_device(discovery[0]).get_status())["modelnumber"]
 
     if sn == "":
         return False
@@ -132,7 +132,7 @@ class ElectroluxClimateEntity(ClimateEntity):
 
     def update(self):
         state = json.loads(self.device.get_status())
-        if state["sn"] != self.sn:
+        if state["modelnumber"] != self.sn:
             self._attr_available = False
             return
         self._attr_available = True
